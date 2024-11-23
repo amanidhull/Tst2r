@@ -16,7 +16,7 @@ from database.config_db import mdb
 from database.topdb import JsTopDB
 from database.jsreferdb import referdb
 from plugins.pm_filter import auto_filter
-from utils import formate_file_name,  get_settings, save_group_settings, is_req_subscribed, get_size, get_shortlink, is_check_admin, get_status, temp, get_readable_time
+from utils import formate_file_name,  get_settings, save_group_settings, is_req_subscribed, get_size, get_shortlink, is_check_admin, get_status, temp, get_readable_time, save_default_settings
 import re
 import base64
 from info import *
