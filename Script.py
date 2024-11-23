@@ -338,14 +338,13 @@ User - {}"""
 ---------------------------------------
 ʏᴏᴜ ᴄᴀɴ ᴄʜᴇᴄᴋ ʏᴏᴜʀ ᴀʟʟ ᴅᴇᴛᴀɪʟs 
 ʙʏ /details ᴄᴏᴍᴍᴀɴᴅ
-</blockquote>
-Aᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ ᴀɴᴅ ᴍᴀᴋᴇ ᴍᴇ ᴀᴅᴍɪɴ ᴀɴᴅ ᴜsᴇ ᴀʟʟ ғᴇᴀᴛᴜʀᴇs😇</b>"""
+</blockquote></b>"""
 
     SOURCE_TXT = """<b>
 NOTE:
 - ᴛʜɪs ᴘʀᴏᴊᴇᴄᴛ ɪs ᴘʀɪᴠᴀᴛᴇ ᴘʟᴢ ᴄᴏɴᴛᴀᴄᴛ ᴏᴡɴᴇʀ› :<blockquote><a href="https://t.me/Your_rjv">𝚁𝚊𝚓 𝚅𝚎𝚛𝚖𝚊 ⚝</a></blockquote>
 
-developer : Mr.Jisshu
+ᴊᴏɪɴ ʙᴏᴛs ᴄʜᴀɴɴᴇʟ @SB_Botz_Update
 </b>""" 
     GROUP_C_TEXT = """<b><blockquote>
  --------------Set Verify-------------
