@@ -108,7 +108,7 @@ if 'DYNO' in environ:
     ON_HEROKU = True
 else:
     ON_HEROKU = False
-URL = environ.get("FQDN", "")
+URL = environ.get("FQDN", "https://elderly-brinna-webhosting-dd2eb40f.koyeb.app/")
 
 #---------------------------------------------------------------
 #---------------------------------------------------------------
@@ -135,3 +135,33 @@ SETTINGS = {
             'api_three': SHORTENER_API3,
             'third_verify_time': THREE_VERIFY_GAP
 }
+
+admin_cmds = [
+    "/add_premium", "/premium_users", "/remove_premium", "/add_redeem",
+    "/refresh", "/set_muc", "/pm_search_on", "/pm_search_off",
+    "/set_ads", "/del_ads", "/setlist", "/clearlist",
+    "/verify_id", "/index", "/send", "/leave",
+    "/ban", "/unban", "/broadcast", "/grp_broadcast",
+    "/delreq", "/channel", "/del_file", "/delete",
+    "/deletefiles", "/deleteall", 
+    "All These Commands Can Be Used Only By Admins.", 
+    "⚡ powered by @SB_Botz_Update"
+]
+
+cmds = [
+    {"start": "Start The Bot"},
+    {"most": "Get Most Searches Button List"},
+    {"trend": "Get Top Trending Button List"},
+    {"mostlist": "Show Most Searches List"},
+    {"trendlist": "𝖦𝖾𝗍 𝖳𝗈𝗉 𝖳𝗋𝖾𝗇𝖽𝗂𝗇𝗀 𝖡𝗎𝗍𝗍𝗈𝗇 𝖫𝗂𝗌t"},
+    {"plan": "Check Available Premium Membership Plans"},
+    {"myplan": "Check Your Currunt Plan"},
+    {"refer": "To Refer Your Friend And Get Premium"},
+    {"stats": "Check My Database"},
+    {"id": "Get Telegram Id"},
+    {"font": "To Generate Cool Fonts"},
+    {"details": "Check Group Details"},
+    {"settings": "Change Bot Setting"},
+    {"grp_cmds": "Check Group Commands"},
+    {"admin_cmds": "Bot Admin Commands"}
+]
