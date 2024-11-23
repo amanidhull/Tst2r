@@ -70,10 +70,10 @@ REQUEST_CHANNEL = int(request_channel) if request_channel and id_pattern.search(
 #---------------------------------------------------------------
 #---------------------------------------------------------------
 #---------------------------------------------------------------
-START_IMG = (environ.get('START_IMG', 'https://i.ibb.co/qpxpGmC/image.jpg https://i.ibb.co/DQ35zLZ/image.jpg')).split()
+START_IMG = (environ.get('START_IMG', 'https://telegra.ph/file/4bd2d0c2cc16d5cb4e3a7.jpg https://telegra.ph/file/0979efecb6566faaa9574.jpg https://telegra.ph/file/2db8eb71a07525be79ab5.jpg https://telegra.ph/file/b94dc2f40e95476385d95.jpg https://telegra.ph/file/c68743010ff1d9629df46.jpg https://telegra.ph/file/160d08c0ac26cf963cb51.jpg https://telegra.ph/file/9b9b657fc9112b8e3b912.jpg https://telegra.ph/file/53d3774666fc1a0fbe0c3.jpg https://telegra.ph/file/6911aaa34ac3f2ed9b2ed.jpg https://telegra.ph/file/a62e2e3b0394195c20e8a.jpg https://telegra.ph/file/9e3c9d5f4026b300b3c66.jpg https://telegra.ph/file/23fc6d5956ef8936abbcb.jpg')).split()
 FORCESUB_IMG = environ.get('FORCESUB_IMG', 'https://i.ibb.co/ZNC1Hnb/ad3f2c88a8f2.jpg')
 REFER_PICS = (environ.get("REFER_PICS", "https://envs.sh/PSI.jpg")).split() 
-PAYPICS = (environ.get('PAYPICS', 'https://graph.org/file/f4db1c3ad3d9e38b328e6.jpg')).split()
+PAYPICS = (environ.get('PAYPICS', 'https://i.ibb.co/7yVMN00/photo-2024-11-22-01-36-17-7439911550367825948.jpg')).split()
 SUBSCRIPTION = (environ.get('SUBSCRIPTION', 'https://graph.org/file/9f3f47c690bbcc67633c2.jpg'))
 REACTIONS = ["👀", "😱", "🔥", "😍", "🎉", "🥰", "😇", "⚡"]
 #---------------------------------------------------------------
