@@ -8,7 +8,7 @@ from info import * #SUBSCRIPTION, PAYPICS, START_IMG, SETTINGS, URL, STICKERS_ID
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, InputMediaPhoto, ChatPermissions, WebAppInfo, InputMediaAnimation, InputMediaPhoto
 from pyrogram import Client, filters, enums
 from pyrogram.errors import * #FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid, ChatAdminRequired
-from utils import temp, get_settings, is_check_admin, get_status, get_size, save_group_settings, is_req_subscribed, get_poster, get_status, get_readable_time , imdb , formate_file_name
+from utils import temp, get_settings, is_check_admin, get_status, get_size, save_group_settings, is_req_subscribed, get_poster, get_status, get_readable_time , imdb , formate_file_name , replace_words
 from database.users_chats_db import db
 from database.ia_filterdb import Media, get_search_results, get_bad_files, get_file_details
 import random
@@ -1429,7 +1429,7 @@ async def ai_spell_check(wrong_name):
 async def auto_filter(client, msg, spoll=False , pm_mode = False):
     if not spoll:
         message = msg
-        search = message.text
+        search = await replace_words(message.text)
         chat_id = message.chat.id
         settings = await get_settings(chat_id , pm_mode=pm_mode)
         searching_msg = await msg.reply_text(f'🔎 sᴇᴀʀᴄʜɪɴɢ {search}')
