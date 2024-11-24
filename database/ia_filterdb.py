@@ -1,5 +1,6 @@
 import logging
 from struct import pack
+import os 
 import re
 import base64
 from pyrogram.file_id import FileId
