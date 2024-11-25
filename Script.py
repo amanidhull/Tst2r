@@ -344,7 +344,8 @@ User - {}"""
 NOTE:
 - ᴛʜɪs ᴘʀᴏᴊᴇᴄᴛ ɪs ᴘʀɪᴠᴀᴛᴇ ᴘʟᴢ ᴄᴏɴᴛᴀᴄᴛ ᴏᴡɴᴇʀ› :<blockquote><a href="https://t.me/Your_rjv">𝚁𝚊𝚓 𝚅𝚎𝚛𝚖𝚊 ⚝</a></blockquote>
 
-ᴊᴏɪɴ ʙᴏᴛs ᴄʜᴀɴɴᴇʟ @SB_Botz_Update
+➥ ᴍᴏᴠɪᴇ ᴄʜᴀɴɴᴇʟ› @SB_Botz_Update
+➥ ᴡᴇʙ-sᴇʀɪᴇs› @apnalink_serise
 </b>""" 
     GROUP_C_TEXT = """<b><blockquote>
  --------------Set Verify-------------
