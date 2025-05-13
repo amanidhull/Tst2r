@@ -19,7 +19,7 @@ API_HASH = environ.get('API_HASH', 'fc533d811f28228e121bbe3901d8f565')
 BOT_TOKEN = environ.get('BOT_TOKEN', '7508555067:AAFUn9As7oskBSJfbszTO_Bbn_FbxyQKt9w')
 #---------------------------------------------------------------
 #---------------------------------------------------------------
-ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ.get('ADMINS', '7309705064 1393092521').split()]
+ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ.get('ADMINS', '6317211079').split()]
 USERNAME = environ.get('USERNAME', "https://t.me/yamiautofilterbot") # ADMIN USERNAME
 LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1002421781174'))
 MOVIE_GROUP_LINK = environ.get('MOVIE_GROUP_LINK', 'https://t.me/MSREQUEST_GROUP')
