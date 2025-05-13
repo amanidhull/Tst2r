@@ -242,23 +242,28 @@ async def seasons_cb_handler(client: Client, query: CallbackQuery):
     files = temp.FILES_ID.get(key, [])
     found_seasons = set()
 
+    # Detect season formats like "S01", "Season 1", etc.
     for f in files:
-        for s in SEASONS:
-            if re.search(rf"\b{re.escape(s)}\b", f.file_name, re.IGNORECASE):
-                found_seasons.add(s)
+        season_match = re.search(r'(?i)(season|s)\s*(\d{1,2})', f.file_name)
+        if season_match:
+            season_num = season_match.group(2)
+            found_seasons.add(f"Season {season_num}")  # Standardize format
 
+    # Sort seasons numerically
+    sorted_seasons = sorted(found_seasons, key=lambda x: int(x.split()[1]))
+    
+    # Create buttons
     btn = [
         [
             InlineKeyboardButton(
                 text=s.upper(),
-                callback_data=f"season_search#{s.lower()}#{key}#0#{offset}#{req}"
+                callback_data=f"season_search#{s.lower().replace(' ', '_')}#{key}#0#{offset}#{req}"
             )
-        ] for s in sorted(found_seasons)
+        ] for s in sorted_seasons
     ]
 
-    btn.append([InlineKeyboardButton(text="⪻ ʙᴀᴄᴋ ᴛᴏ ᴍᴀɪɴ ᴘᴀɢᴇ", callback_data=f"next_{req}_{key}_{offset}")])
-    await query.message.edit_text("<b>ɪɴ ᴡʜɪᴄʜ sᴇᴀsᴏɴ ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ, ᴄʜᴏᴏsᴇ ғʀᴏᴍ ʜᴇʀᴇ ↓↓</b>", reply_markup=InlineKeyboardMarkup(btn))
-    return
+    btn.append([InlineKeyboardButton("⪻ Back", callback_data=f"next_{req}_{key}_{offset}")])
+    await query.message.edit_text("Select Season:", reply_markup=InlineKeyboardMarkup(btn))
 
 @Client.on_callback_query(filters.regex(r"^season_search#"))
 async def season_search(client: Client, query: CallbackQuery):
@@ -466,9 +471,10 @@ async def quality_cb_handler(client: Client, query: CallbackQuery):
     files = temp.FILES_ID.get(key, [])
     found_quals = set()
 
+    # Flexible quality detection (case-insensitive, partial matches)
     for f in files:
         for q in QUALITIES:
-            if re.search(rf"\b{re.escape(q)}\b", f.file_name, re.IGNORECASE):
+            if re.search(rf'(?i)\b{q}\b', f.file_name):
                 found_quals.add(q)
 
     btn = [
@@ -477,13 +483,12 @@ async def quality_cb_handler(client: Client, query: CallbackQuery):
                 text=q.upper(),
                 callback_data=f"quality_search#{q.lower()}#{key}#0#{offset}#{req}"
             )
-        ] for q in sorted(found_quals)
+        ] for q in sorted(found_quals, key=lambda x: QUALITIES.index(x))
     ]
+    
+    btn.append([InlineKeyboardButton("⪻ Back", callback_data=f"next_{req}_{key}_{offset}")])
+    await query.message.edit_text("Select Quality:", reply_markup=InlineKeyboardMarkup(btn))
 	
-    btn.append([InlineKeyboardButton(text="⪻ ʙᴀᴄᴋ ᴛᴏ ᴍᴀɪɴ ᴘᴀɢᴇ", callback_data=f"next_{req}_{key}_{offset}")])
-    await query.message.edit_text("<b>ɪɴ ᴡʜɪᴄʜ ǫᴜᴀʟɪᴛʏ ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ, ᴄʜᴏᴏsᴇ ғʀᴏᴍ ʜᴇʀᴇ ↓↓</b>", reply_markup=InlineKeyboardMarkup(btn))
-    return
-
 @Client.on_callback_query(filters.regex(r"^quality_search#"))
 async def quality_search(client: Client, query: CallbackQuery):
     _, qul, key, offset, orginal_offset, req = query.data.split("#")
@@ -566,28 +571,35 @@ async def quality_search(client: Client, query: CallbackQuery):
     await query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup(btn))
 
 @Client.on_callback_query(filters.regex(r"^languages#"))
+@Client.on_callback_query(filters.regex(r"^languages#"))
 async def languages_cb_handler(client: Client, query: CallbackQuery):
     _, key, offset, req = query.data.split("#")
     files = temp.FILES_ID.get(key, [])
     found_langs = set()
 
+    # Match full language names or common abbreviations
+    lang_map = {
+        "hin": "hindi", "eng": "english", "tel": "telugu",
+        "tam": "tamil", "kan": "kannada", "mal": "malayalam"
+    }
+    
     for f in files:
-        for l in LANGUAGES:
-            if re.search(rf"\b{re.escape(l)}\b", f.file_name, re.IGNORECASE):
-                found_langs.add(l)
+        for lang in LANGUAGES:
+            # Check for full name or abbreviation
+            if re.search(rf'(?i)\b({lang}|{lang_map.get(lang[:3], "")})\b', f.file_name):
+                found_langs.add(lang)
 
     btn = [
         [
             InlineKeyboardButton(
-                text=l.upper(),
-                callback_data=f"lang_search#{l.lower()}#{key}#0#{offset}#{req}"
+                text=lang.upper(),
+                callback_data=f"lang_search#{lang.lower()}#{key}#0#{offset}#{req}"
             )
-        ] for l in sorted(found_langs)
+        ] for lang in sorted(found_langs)
     ]
-	
-    btn.append([InlineKeyboardButton(text="⪻ ʙᴀᴄᴋ ᴛᴏ ᴍᴀɪɴ ᴘᴀɢᴇ", callback_data=f"next_{req}_{key}_{offset}")])
-    await query.message.edit_text("<b>ɪɴ ᴡʜɪᴄʜ ʟᴀɴɢᴜᴀɢᴇ ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ, ᴄʜᴏᴏsᴇ ғʀᴏᴍ ʜᴇʀᴇ ↓↓</b>", reply_markup=InlineKeyboardMarkup(btn))
-    return
+    
+    btn.append([InlineKeyboardButton("⪻ Back", callback_data=f"next_{req}_{key}_{offset}")])
+    await query.message.edit_text("Select Language:", reply_markup=InlineKeyboardMarkup(btn))
 
 @Client.on_callback_query(filters.regex(r"^lang_search#"))
 async def lang_search(client: Client, query: CallbackQuery):
