@@ -239,24 +239,22 @@ async def next_page(bot, query):
 @Client.on_callback_query(filters.regex(r"^seasons#"))
 async def seasons_cb_handler(client: Client, query: CallbackQuery):
     _, key, offset, req = query.data.split("#")
-    if int(req) != query.from_user.id:
-        return await query.answer(script.ALRT_TXT, show_alert=True) 
-    btn= []
-    for i in range(0, len(SEASONS)-1, 3):
-        btn.append([
+    files = temp.FILES_ID.get(key, [])
+    found_seasons = set()
+
+    for f in files:
+        for s in SEASONS:
+            if re.search(rf"\b{re.escape(s)}\b", f.file_name, re.IGNORECASE):
+                found_seasons.add(s)
+
+    btn = [
+        [
             InlineKeyboardButton(
-                text=SEASONS[i].title(),
-                callback_data=f"season_search#{SEASONS[i].lower()}#{key}#0#{offset}#{req}"
-            ),
-            InlineKeyboardButton(
-                text=SEASONS[i+1].title(),
-                callback_data=f"season_search#{SEASONS[i+1].lower()}#{key}#0#{offset}#{req}"
-            ),
-            InlineKeyboardButton(
-                text=SEASONS[i+2].title(),
-                callback_data=f"season_search#{SEASONS[i+2].lower()}#{key}#0#{offset}#{req}"
-            ),
-        ])
+                text=s.upper(),
+                callback_data=f"season_search#{s.lower()}#{key}#0#{offset}#{req}"
+            )
+        ] for s in sorted(found_seasons)
+    ]
 
     btn.append([InlineKeyboardButton(text="⪻ ʙᴀᴄᴋ ᴛᴏ ᴍᴀɪɴ ᴘᴀɢᴇ", callback_data=f"next_{req}_{key}_{offset}")])
     await query.message.edit_text("<b>ɪɴ ᴡʜɪᴄʜ sᴇᴀsᴏɴ ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ, ᴄʜᴏᴏsᴇ ғʀᴏᴍ ʜᴇʀᴇ ↓↓</b>", reply_markup=InlineKeyboardMarkup(btn))
@@ -465,24 +463,23 @@ async def year_search(client: Client, query: CallbackQuery):
 @Client.on_callback_query(filters.regex(r"^qualities#"))
 async def quality_cb_handler(client: Client, query: CallbackQuery):
     _, key, offset, req = query.data.split("#")
-    if int(req) != query.from_user.id:
-        return await query.answer(script.ALRT_TXT, show_alert=True)
-    btn= []
-    for i in range(0, len(QUALITIES)-1, 3):
-        btn.append([
+    files = temp.FILES_ID.get(key, [])
+    found_quals = set()
+
+    for f in files:
+        for q in QUALITIES:
+            if re.search(rf"\b{re.escape(q)}\b", f.file_name, re.IGNORECASE):
+                found_quals.add(q)
+
+    btn = [
+        [
             InlineKeyboardButton(
-                text=QUALITIES[i].title(),
-                callback_data=f"quality_search#{QUALITIES[i].lower()}#{key}#0#{offset}#{req}"
-            ),
-            InlineKeyboardButton(
-                text=QUALITIES[i+1].title(),
-                callback_data=f"quality_search#{QUALITIES[i+1].lower()}#{key}#0#{offset}#{req}"
-            ),
-            InlineKeyboardButton(
-                text=QUALITIES[i+2].title(),
-                callback_data=f"quality_search#{QUALITIES[i+2].lower()}#{key}#0#{offset}#{req}"
-            ),
-        ])
+                text=q.upper(),
+                callback_data=f"quality_search#{q.lower()}#{key}#0#{offset}#{req}"
+            )
+        ] for q in sorted(found_quals)
+    ]
+	
     btn.append([InlineKeyboardButton(text="⪻ ʙᴀᴄᴋ ᴛᴏ ᴍᴀɪɴ ᴘᴀɢᴇ", callback_data=f"next_{req}_{key}_{offset}")])
     await query.message.edit_text("<b>ɪɴ ᴡʜɪᴄʜ ǫᴜᴀʟɪᴛʏ ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ, ᴄʜᴏᴏsᴇ ғʀᴏᴍ ʜᴇʀᴇ ↓↓</b>", reply_markup=InlineKeyboardMarkup(btn))
     return
@@ -571,20 +568,23 @@ async def quality_search(client: Client, query: CallbackQuery):
 @Client.on_callback_query(filters.regex(r"^languages#"))
 async def languages_cb_handler(client: Client, query: CallbackQuery):
     _, key, offset, req = query.data.split("#")
-    if int(req) != query.from_user.id:
-        return await query.answer(script.ALRT_TXT, show_alert=True)
-    btn  = []
-    for i in range(0, len(LANGUAGES)-1, 2):
-        btn.append([
+    files = temp.FILES_ID.get(key, [])
+    found_langs = set()
+
+    for f in files:
+        for l in LANGUAGES:
+            if re.search(rf"\b{re.escape(l)}\b", f.file_name, re.IGNORECASE):
+                found_langs.add(l)
+
+    btn = [
+        [
             InlineKeyboardButton(
-                text=LANGUAGES[i].title(),
-                callback_data=f"lang_search#{LANGUAGES[i].lower()}#{key}#0#{offset}#{req}"
-            ),
-            InlineKeyboardButton(
-                text=LANGUAGES[i+1].title(),
-                callback_data=f"lang_search#{LANGUAGES[i+1].lower()}#{key}#0#{offset}#{req}"
-            ),
-                    ])
+                text=l.upper(),
+                callback_data=f"lang_search#{l.lower()}#{key}#0#{offset}#{req}"
+            )
+        ] for l in sorted(found_langs)
+    ]
+	
     btn.append([InlineKeyboardButton(text="⪻ ʙᴀᴄᴋ ᴛᴏ ᴍᴀɪɴ ᴘᴀɢᴇ", callback_data=f"next_{req}_{key}_{offset}")])
     await query.message.edit_text("<b>ɪɴ ᴡʜɪᴄʜ ʟᴀɴɢᴜᴀɢᴇ ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ, ᴄʜᴏᴏsᴇ ғʀᴏᴍ ʜᴇʀᴇ ↓↓</b>", reply_markup=InlineKeyboardMarkup(btn))
     return
