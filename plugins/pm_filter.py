@@ -239,22 +239,24 @@ async def next_page(bot, query):
 @Client.on_callback_query(filters.regex(r"^seasons#"))
 async def seasons_cb_handler(client: Client, query: CallbackQuery):
     _, key, offset, req = query.data.split("#")
-    files = temp.FILES_ID.get(key, [])
-    found_seasons = set()
-
-    for f in files:
-        for s in SEASONS:
-            if re.search(rf"\b{re.escape(s)}\b", f.file_name, re.IGNORECASE):
-                found_seasons.add(s)
-
-    btn = [
-        [
+    if int(req) != query.from_user.id:
+        return await query.answer(script.ALRT_TXT, show_alert=True) 
+    btn= []
+    for i in range(0, len(SEASONS)-1, 3):
+        btn.append([
             InlineKeyboardButton(
-                text=s.upper(),
-                callback_data=f"season_search#{s.lower()}#{key}#0#{offset}#{req}"
-            )
-        ] for s in sorted(found_seasons)
-    ]
+                text=SEASONS[i].title(),
+                callback_data=f"season_search#{SEASONS[i].lower()}#{key}#0#{offset}#{req}"
+            ),
+            InlineKeyboardButton(
+                text=SEASONS[i+1].title(),
+                callback_data=f"season_search#{SEASONS[i+1].lower()}#{key}#0#{offset}#{req}"
+            ),
+            InlineKeyboardButton(
+                text=SEASONS[i+2].title(),
+                callback_data=f"season_search#{SEASONS[i+2].lower()}#{key}#0#{offset}#{req}"
+            ),
+        ])
 
     btn.append([InlineKeyboardButton(text="⪻ ʙᴀᴄᴋ ᴛᴏ ᴍᴀɪɴ ᴘᴀɢᴇ", callback_data=f"next_{req}_{key}_{offset}")])
     await query.message.edit_text("<b>ɪɴ ᴡʜɪᴄʜ sᴇᴀsᴏɴ ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ, ᴄʜᴏᴏsᴇ ғʀᴏᴍ ʜᴇʀᴇ ↓↓</b>", reply_markup=InlineKeyboardMarkup(btn))
