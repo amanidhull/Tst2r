@@ -17,6 +17,7 @@ from .Extra.checkFsub import is_user_fsub
 import traceback
 from fuzzywuzzy import process
 BUTTONS = {}
+FILES_ALL_ID = {}    # cache for all pages of each search key
 FILES_ID = {}
 CAP = {}
 
@@ -167,6 +168,26 @@ async def next_page(bot, query):
     if not files:
         return
     temp.FILES_ID[key] = files
+    if key not in temp.FILES_ALL_ID:
+        all_files = []
+        cur_off = 0
+        while True:
+            page_files, next_off, _ = await get_search_results(
+                search,
+                max_results=int(MAX_BTN),
+                offset=cur_off
+            )
+            all_files.extend(page_files)
+            try:
+                next_off = int(next_off)
+            except:
+                next_off = 0
+            if not next_off or next_off == cur_off:
+                break
+            cur_off = next_off
+        temp.FILES_ALL_ID[key] = all_files
+     #-----------------
+     #-----------------
     batch_ids = files
     temp.FILES_ID[f"{query.message.chat.id}-{query.id}"] = batch_ids
     batch_link = f"batchfiles#{query.message.chat.id}#{query.id}#{query.from_user.id}"
@@ -239,22 +260,24 @@ async def next_page(bot, query):
 @Client.on_callback_query(filters.regex(r"^seasons#"))
 async def seasons_cb_handler(client: Client, query: CallbackQuery):
     _, key, offset, req = query.data.split("#")
-    files = temp.FILES_ID.get(key, [])
-    found_seasons = set()
-
-    for f in files:
-        for s in SEASONS:
-            if re.search(rf"\b{re.escape(s)}\b", f.file_name, re.IGNORECASE):
-                found_seasons.add(s)
-
-    btn = [
-        [
+    if int(req) != query.from_user.id:
+        return await query.answer(script.ALRT_TXT, show_alert=True) 
+    btn= []
+    for i in range(0, len(SEASONS)-1, 3):
+        btn.append([
             InlineKeyboardButton(
-                text=s.upper(),
-                callback_data=f"season_search#{s.lower()}#{key}#0#{offset}#{req}"
-            )
-        ] for s in sorted(found_seasons)
-    ]
+                text=SEASONS[i].title(),
+                callback_data=f"season_search#{SEASONS[i].lower()}#{key}#0#{offset}#{req}"
+            ),
+            InlineKeyboardButton(
+                text=SEASONS[i+1].title(),
+                callback_data=f"season_search#{SEASONS[i+1].lower()}#{key}#0#{offset}#{req}"
+            ),
+            InlineKeyboardButton(
+                text=SEASONS[i+2].title(),
+                callback_data=f"season_search#{SEASONS[i+2].lower()}#{key}#0#{offset}#{req}"
+            ),
+        ])
 
     btn.append([InlineKeyboardButton(text="⪻ ʙᴀᴄᴋ ᴛᴏ ᴍᴀɪɴ ᴘᴀɢᴇ", callback_data=f"next_{req}_{key}_{offset}")])
     await query.message.edit_text("<b>ɪɴ ᴡʜɪᴄʜ sᴇᴀsᴏɴ ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ, ᴄʜᴏᴏsᴇ ғʀᴏᴍ ʜᴇʀᴇ ↓↓</b>", reply_markup=InlineKeyboardMarkup(btn))
@@ -463,7 +486,7 @@ async def year_search(client: Client, query: CallbackQuery):
 @Client.on_callback_query(filters.regex(r"^qualities#"))
 async def quality_cb_handler(client: Client, query: CallbackQuery):
     _, key, offset, req = query.data.split("#")
-    files = temp.FILES_ID.get(key, [])
+    files = temp.FILES_ALL_ID.get(key, [])
     found_quals = set()
 
     for f in files:
@@ -568,7 +591,7 @@ async def quality_search(client: Client, query: CallbackQuery):
 @Client.on_callback_query(filters.regex(r"^languages#"))
 async def languages_cb_handler(client: Client, query: CallbackQuery):
     _, key, offset, req = query.data.split("#")
-    files = temp.FILES_ID.get(key, [])
+    files = temp.FILES_ALL_ID.get(key, [])
     found_langs = set()
 
     for f in files:
