@@ -186,8 +186,7 @@ async def next_page(bot, query):
                 break
             cur_off = next_off
         temp.FILES_ALL_ID[key] = all_files
-     #-----------------
-     #-----------------
+	    
     batch_ids = files
     temp.FILES_ID[f"{query.message.chat.id}-{query.id}"] = batch_ids
     batch_link = f"batchfiles#{query.message.chat.id}#{query.id}#{query.from_user.id}"
